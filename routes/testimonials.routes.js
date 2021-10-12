@@ -9,13 +9,13 @@ router.route('/testimonials').get((req, res) => {
   res.json(testimonials);
 });
 
+router.route('/testimonials/random').get((req, res) => {
+  res.json(testimonials[Math.floor(Math.random() * testimonials.length)]);
+});
+
 router.route('/testimonials/:id').get((req, res) => { 
   const index  = testimonials.findIndex(el => el.id == req.params.id);
   index != -1 ? res.json(testimonials[index]) : res.json({message: 'Wrong id!'});
-});
-
-router.route('/testimonialsrandom').get((req, res) => {
-  res.json(testimonials[Math.floor(Math.random() * testimonials.length)]);
 });
 
 router.route('/testimonials').post((req, res) => {
