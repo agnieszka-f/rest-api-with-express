@@ -21,7 +21,8 @@ router.route('/seats').post((req, res) => {
 	  
     if(seats.some(el => el.day != day && el.seat != seat)){ 
         seats.push({id: Date.now(), day, seat, client, email });
-        res.json({message: 'OK'});			
+        res.json({message: 'OK'});		
+        req.io.emit('seatsUpdated', seats);	
     } else res.json({message: 'The slot is already taken...'});
 	
   } else res.json({message: 'You have to fill all the fields...'});
