@@ -3,6 +3,7 @@ const socket = require('socket.io');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
+app.use(helmet());
 
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
@@ -44,7 +47,7 @@ io.on('connection', (socket) => {
 const NODE_ENV = process.env.NODE_ENV;
 let dbUri = '';
 
-if(NODE_ENV === 'production') dbUri = 'mongodb+srv://root:Kawaika96@cluster0.ezv65.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+if(NODE_ENV === 'production') dbUri = 'mongodb+srv://' + process.env.MONGODB_USERNAME + ':' + process.env.MONGODB_PASSWORD + '@' + process.env.MONGODB_URL + '/' + process.env.MONGODB_DATABASE + '?retryWrites=true&w=majority';
 else if(NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDBtest';
 else dbUri = 'mongodb://localhost:27017/NewWaveDB';
 
